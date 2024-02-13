@@ -41,7 +41,6 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   let location = useLocation();
   const navigate = useNavigate();
-  const weatherCodes = useWeatherCode();
   const onlineStatus = useOnline();
 
   const handleLanguageChange = (lang: "zh" | "en") => {
@@ -140,21 +139,6 @@ const Header = () => {
         }}
       />
       <Box sx={funcPanelSx}>
-        {weatherCodes.slice(0, 2).map((code) => (
-          <Avatar
-            onClick={() =>
-              window.open(
-                `https://www.hko.gov.hk/${
-                  i18n.language === "zh" ? "tc" : "en"
-                }/detail.htm`
-              )
-            }
-            key={code}
-            variant="square"
-            src={WeatherIcons[code]}
-            sx={weatherImg}
-          />
-        ))}
         {geoPermission === "granted" && (
           <IconButton
             aria-label="relocate"

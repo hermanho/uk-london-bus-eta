@@ -8,7 +8,6 @@ import {
 } from "react";
 import AppContext from "../AppContext";
 import { Box, Paper, SxProps, Theme } from "@mui/material";
-import BadWeatherCard from "../components/layout/BadWeatherCard";
 import DbRenewReminder from "../components/layout/DbRenewReminder";
 import StopTabbar from "../components/bookmarked-stop/StopTabbar";
 import { useTranslation } from "react-i18next";
@@ -83,7 +82,6 @@ const BookmarkedStop = () => {
       elevation={0}
     >
       <StopTabbar stopTab={stopTab} onChangeTab={handleTabChange} />
-      <BadWeatherCard />
       <DbRenewReminder />
       <Box sx={{ flex: 1, overflow: "scroll" }}>
         <SwipeableStopList
