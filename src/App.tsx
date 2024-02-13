@@ -1,6 +1,5 @@
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import loadable from "@loadable/component";
 import { PaletteMode } from "@mui/material";
 import {
   StyledEngineProvider,
@@ -8,7 +7,7 @@ import {
   createTheme,
 } from "@mui/material/styles";
 import "leaflet/dist/leaflet.css";
-import { useContext, useMemo } from "react";
+import { lazy, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Navigate,
@@ -23,18 +22,18 @@ import Main from "./components/layout/Main";
 import RedirectPage from "./pages/RedirectPage";
 import reportWebVitals, { sendToGoogleAnalytics } from "./reportWebVitals";
 
-const Home = loadable(() => import("./pages/Home"));
-const RouteEta = loadable(() => import("./pages/RouteEta"));
-const BookmarkedStop = loadable(() => import("./pages/BookmarkedStop"));
-const RouteBoard = loadable(() => import("./pages/RouteBoard"));
-const RouteSearch = loadable(() => import("./pages/RouteSearch"));
-const Notice = loadable(() => import("./pages/Notice"));
-const Settings = loadable(() => import("./pages/Settings"));
-const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
-const TermsAndConditions = loadable(() => import("./pages/TermsAndConditions"));
-const Support = loadable(() => import("./pages/Support"));
-const DataImport = loadable(() => import("./pages/DataImport"));
-const DataExport = loadable(() => import("./pages/DataExport"));
+const Home = lazy(() => import("./pages/Home"));
+const RouteEta = lazy(() => import("./pages/RouteEta"));
+const BookmarkedStop = lazy(() => import("./pages/BookmarkedStop"));
+const RouteBoard = lazy(() => import("./pages/RouteBoard"));
+const RouteSearch = lazy(() => import("./pages/RouteSearch"));
+const Notice = lazy(() => import("./pages/Notice"));
+const Settings = lazy(() => import("./pages/Settings"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+const Support = lazy(() => import("./pages/Support"));
+const DataImport = lazy(() => import("./pages/DataImport"));
+const DataExport = lazy(() => import("./pages/DataExport"));
 
 const App = () => {
   const { analytics, colorMode, fontSize } = useContext(AppContext);
@@ -64,18 +63,18 @@ const App = () => {
                     path={`collections/:collectionName`}
                     element={<Home />}
                   />
-                  <Route path={`route/:id`} element={<RouteEta />} />
-                  <Route path={`route/:id/:panel`} element={<RouteEta />} />
-                  <Route path={`settings`} element={<Settings />} />
-                  <Route path={"notice"} element={<Notice />} />
-                  <Route path={`import/:data?`} element={<DataImport />} />
-                  <Route path={`export`} element={<DataExport />} />
-                  <Route path={`board`} element={<RouteBoard />} />
-                  <Route path={`stops`} element={<BookmarkedStop />} />
-                  <Route path={`search`} element={<RouteSearch />} />
-                  <Route path={`privacy`} element={<PrivacyPolicy />} />
-                  <Route path={`terms`} element={<TermsAndConditions />} />
-                  <Route path={`support`} element={<Support />} />
+                  <Route path={`route/:id`} Component={RouteEta} />
+                  <Route path={`route/:id/:panel`} Component={RouteEta} />
+                  <Route path={`settings`} Component={Settings} />
+                  <Route path={"notice"} Component={Notice} />
+                  <Route path={`import/:data?`} Component={DataImport} />
+                  <Route path={`export`} Component={DataExport} />
+                  <Route path={`board`} Component={RouteBoard} />
+                  <Route path={`stops`} Component={BookmarkedStop} />
+                  <Route path={`search`} Component={RouteSearch} />
+                  <Route path={`privacy`} Component={PrivacyPolicy} />
+                  <Route path={`terms`} Component={TermsAndConditions} />
+                  <Route path={`support`} Component={Support} />
                   <Route
                     path={"patreon"}
                     element={
@@ -172,39 +171,39 @@ const getThemeTokens = (mode: PaletteMode, fontSize: number) => ({
     mode,
     ...(mode === "light"
       ? {
-          // light mode
-          background: {
-            default: "#fedb00", // yellow
-            contrast: "rgba(255, 255, 255, 0.12)",
-          },
-          primary: {
-            main: "#444",
-            contrastText: "rgba(0, 0, 0, 0.12)",
-          },
-          warning: {
-            main: "#3285e3",
-          },
-          secondary: {
-            main: "#000",
-          },
-        }
+        // light mode
+        background: {
+          default: "#fedb00", // yellow
+          contrast: "rgba(255, 255, 255, 0.12)",
+        },
+        primary: {
+          main: "#444",
+          contrastText: "rgba(0, 0, 0, 0.12)",
+        },
+        warning: {
+          main: "#3285e3",
+        },
+        secondary: {
+          main: "#000",
+        },
+      }
       : {
-          //dark mode
-          background: {
-            default: "#000",
-            contrast: "rgba(255, 255, 255, 0.12)",
-          },
-          primary: {
-            main: "#fedb00", // yellow
-            contrastText: "#000",
-          },
-          warning: {
-            main: "#fedb00",
-          },
-          secondary: {
-            main: "#fedb00",
-          },
-        }),
+        //dark mode
+        background: {
+          default: "#000",
+          contrast: "rgba(255, 255, 255, 0.12)",
+        },
+        primary: {
+          main: "#fedb00", // yellow
+          contrastText: "#000",
+        },
+        warning: {
+          main: "#fedb00",
+        },
+        secondary: {
+          main: "#fedb00",
+        },
+      }),
   },
   elements: {
     MuiCssBaseline: {

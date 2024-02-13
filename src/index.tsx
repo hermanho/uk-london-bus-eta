@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import loadable from "@loadable/component";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { DbProvider } from "./DbContext";
@@ -10,7 +9,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import ErrorBoundary from "./ErrorBoundary";
 import { CollectionContextProvider } from "./CollectionContext";
 import { ReactNativeContextProvider } from "./ReactNativeContext";
-const App = loadable(() => import("./App"));
+const App = lazy(() => import("./App"));
 
 const isHuman = () => {
   const agents = [
@@ -69,7 +68,9 @@ if (isHuman()) {
           <CollectionContextProvider>
             <AppContextProvider workbox={state.workbox}>
               <ReactNativeContextProvider>
-                <App />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <App />
+                </Suspense>
               </ReactNativeContextProvider>
             </AppContextProvider>
           </CollectionContextProvider>

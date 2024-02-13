@@ -1,9 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { Box, SxProps, Theme } from "@mui/material";
-import loadable from "@loadable/component";
 import type { RouteListEntry } from "hk-bus-eta";
 import StopAccordion from "./StopAccordion";
-const SharingModal = loadable(() => import("./SharingModal"));
+const SharingModal = lazy(() => import("./SharingModal"));
 
 interface StopAccordionsProps {
   routeId: string;
@@ -55,7 +54,7 @@ const StopAccordions = ({
           ref={(el) => (accordionRef.current[idx] = el)}
         />
       ))}
-      {sharingObj && <SharingModal {...sharingObj} />}
+      {sharingObj && <Suspense><SharingModal {...sharingObj} /></Suspense>}
     </Box>
   );
 };

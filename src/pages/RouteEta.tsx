@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext, useMemo, useCallback } from "react";
+import { useState, useEffect, useContext, useMemo, useCallback, lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import loadable from "@loadable/component";
 import RouteHeader from "../components/route-eta/RouteHeader";
 import StopAccordionList from "../components/route-eta/StopAccordionList";
 import StopDialog from "../components/route-eta/StopDialog";
@@ -15,7 +14,7 @@ import {
   StopListEntry,
   StopMap,
 } from "hk-bus-eta";
-const RouteMap = loadable(() => import("../components/route-eta/RouteMap"));
+const RouteMap = lazy(() => import("../components/route-eta/RouteMap"));
 
 const RouteEta = () => {
   const { id, panel } = useParams<{ id: string; panel?: string }>();
@@ -30,14 +29,15 @@ const RouteEta = () => {
   const routeId = getRouteEntry(id.toUpperCase(), routeList);
   const routeListEntry = routeList[routeId];
   const { route, stops, co, orig, dest, fares } = routeListEntry;
+  const firstCO = Object.keys(stops)[0];
   const stopIds = useMemo(() => {
-    return getStops(co, stops)
+    return stops[firstCO]
       .map((id) => {
         return [id, stopList[id]] as [string, StopListEntry];
       })
       .filter(([, stop]) => stop !== null && stop !== undefined)
       .map(([id]) => id);
-  }, [co, stopList, stops]);
+  }, [firstCO, stopList, stops]);
 
   const [defaultStopIdx] = useState(() => {
     if (geoPermission === "granted") {
@@ -88,10 +88,7 @@ const RouteEta = () => {
   }, [panel, stops, defaultStopIdx]);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const dialogStop = useMemo(
-    () => getDialogStops(co, stops, stopMap, stopIdx),
-    [co, stopIdx, stopMap, stops]
-  );
+  const dialogStop = [[firstCO, stops[firstCO][stopIdx]]] as [[Company, string]];
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -148,8 +145,8 @@ const RouteEta = () => {
     const pageDesc = () => {
       const uniqueFares = fares
         ? fares
-            .filter((v, idx, self) => self.indexOf(v) === idx)
-            .map((v) => `$${v}`)
+          .filter((v, idx, self) => self.indexOf(v) === idx)
+          .map((v) => `$${v}`)
         : [];
       if (i18n.language === "zh") {
         return (
@@ -205,14 +202,16 @@ const RouteEta = () => {
       <input hidden id={id} />
       <RouteHeader routeId={routeId} />
       {!energyMode && navigator.userAgent !== "prerendering" && (
-        <RouteMap
-          routeId={routeId}
-          stopIds={stopIds}
-          stopIdx={stopIdx}
-          route={route}
-          companies={co}
-          onMarkerClick={onMarkerClick}
-        />
+        <Suspense>
+          <RouteMap
+            routeId={routeId}
+            stopIds={stopIds}
+            stopIdx={stopIdx}
+            route={route}
+            companies={co}
+            onMarkerClick={onMarkerClick}
+          />
+        </Suspense>
       )}
       <StopAccordionList
         routeId={routeId}
@@ -238,32 +237,6 @@ const getRouteEntry = (id: string, routeList: RouteList) => {
     id.toUpperCase(),
     Object.keys(routeList).filter((v) => v.startsWith(prefix))
   ).bestMatch.target;
-};
-
-// TODO: better handling on buggy data in database
-const getStops = (co: string[], stops: Record<string, string[]>): string[] => {
-  for (let i = 0; i < co.length; ++i) {
-    if (co[i] in stops) {
-      return stops[co[i]];
-    }
-  }
-  return [];
-};
-
-// TODO: better handling on buggy data in database
-const getDialogStops = (
-  co: Company[],
-  stops: RouteListEntry["stops"],
-  stopMap: StopMap,
-  idx: number
-): Array<[Company, string]> => {
-  for (let i = 0; i < co.length; ++i) {
-    if (co[i] in stops)
-      return [[co[i], stops[co[i]][idx]]].concat(
-        stopMap[stops[co[i]][idx]] ?? []
-      ) as Array<[Company, string]>;
-  }
-  return [];
 };
 
 export default RouteEta;
