@@ -1,5 +1,4 @@
 import React, { useContext, useMemo, useCallback } from "react";
-import SwipeableViews from "react-swipeable-views";
 import { virtualize, bindKeyboard } from "react-swipeable-views-utils";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { FixedSizeList } from "react-window";
@@ -14,6 +13,7 @@ import type { BoardTabType } from "../../typing";
 import { TRANSPORT_SEARCH_OPTIONS, TRANSPORT_ORDER } from "../../constants";
 import RouteRowList from "./RouteRowList";
 import { routeSortFunc } from "../../utils";
+import { SwipeableViews } from "../SwipeableViews";
 
 interface SwipeableRouteBoardProps {
   boardTab: BoardTabType;

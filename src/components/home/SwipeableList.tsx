@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import SwipeableViews from "react-swipeable-views";
 import AppContext from "../../AppContext";
 import type { HomeTabType } from "./HomeTabbar";
 import SearchRangeController from "./SearchRangeController";
@@ -12,6 +11,7 @@ import NearbyRouteList from "./lists/NearbyRouteList";
 import SavedRouteList from "./lists/SavedRouteList";
 import SmartCollectionRouteList from "./lists/SmartCollectionRouteList";
 import CollectionRouteList from "./lists/CollectionRouteList";
+import { SwipeableViews } from "../SwipeableViews";
 
 interface SwipeableListProps {
   homeTab: HomeTabType;

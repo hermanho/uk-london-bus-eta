@@ -5,9 +5,9 @@ import React, {
   useImperativeHandle,
   useCallback,
 } from "react";
-import SwipeableViews from "react-swipeable-views";
 import AppContext from "../../AppContext";
 import StopRouteList from "./StopRouteList";
+import { SwipeableViews } from "../SwipeableViews";
 
 interface SwipeableStopListProps {
   stopTab: string;
