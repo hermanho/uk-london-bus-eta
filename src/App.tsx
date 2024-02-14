@@ -16,6 +16,10 @@ import {
   Routes,
 } from "react-router-dom";
 import "./App.css";
+import 'swiper/css';
+import 'swiper/css/virtual';
+import 'swiper/css/keyboard';
+
 import AppContext from "./AppContext";
 import { SearchContextProvider } from "./SearchContext";
 import Main from "./components/layout/Main";

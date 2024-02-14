@@ -1,8 +1,10 @@
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 import AppContext from "../../AppContext";
 import type { HomeTabType } from "./HomeTabbar";
@@ -11,7 +13,7 @@ import NearbyRouteList from "./lists/NearbyRouteList";
 import SavedRouteList from "./lists/SavedRouteList";
 import SmartCollectionRouteList from "./lists/SmartCollectionRouteList";
 import CollectionRouteList from "./lists/CollectionRouteList";
-import { SwipeableViews } from "../SwipeableViews";
+import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 interface SwipeableListProps {
   homeTab: HomeTabType;
@@ -45,31 +47,51 @@ const SwipeableList = React.forwardRef<SwipeableListRef, SwipeableListProps>(
       return -1;
     }, [collections]);
 
+    const [swiper, setSwiper] = useState<SwiperClass | null>(null);
+    useEffect(() => {
+      setTimeout(() => {
+        if (swiper) {
+          swiper.slideTo(getViewIdx());
+        }
+      }, 10);
+    }, [getViewIdx]);
+
+
     return (
       <>
-        {/* SwipeableViews has overflow attribute child div and this preventing <SearchRangeControl/> fixed on top using `position: sticky` */}
         {homeTab === "nearby" ? <SearchRangeController /> : null}
-        <SwipeableViews
-          index={getViewIdx()}
-          onChangeIndex={(idx) => {
+        <Swiper
+
+          onSwiper={setSwiper}
+          onSlideChange={(swiper) => {
+            const idx = swiper.activeIndex;
             onChangeTab(
               idx < HOME_TAB.length
                 ? HOME_TAB[idx]
                 : collections[idx - HOME_TAB.length].name
             );
           }}
+
         >
-          <NearbyRouteList isFocus={homeTab === "nearby"} />
-          <SavedRouteList isFocus={homeTab === "saved"} />
-          <SmartCollectionRouteList isFocus={homeTab === "collections"} />
+          <SwiperSlide>
+            <NearbyRouteList isFocus={homeTab === "nearby"} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <SavedRouteList isFocus={homeTab === "saved"} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <SmartCollectionRouteList isFocus={homeTab === "collections"} />
+          </SwiperSlide>
           {collections.map((collection) => (
-            <CollectionRouteList
-              key={`list-${collection.name}`}
-              collection={collection}
-              isFocus={homeTab === collection.name}
-            />
+            <SwiperSlide key={`list-${collection.name}`}>
+              <CollectionRouteList
+                key={`list-${collection.name}`}
+                collection={collection}
+                isFocus={homeTab === collection.name}
+              />
+            </SwiperSlide>
           ))}
-        </SwipeableViews>
+        </Swiper>
       </>
     );
   }

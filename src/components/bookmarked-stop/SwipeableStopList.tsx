@@ -4,10 +4,12 @@ import React, {
   useRef,
   useImperativeHandle,
   useCallback,
+  useEffect,
+  useState,
 } from "react";
 import AppContext from "../../AppContext";
 import StopRouteList from "./StopRouteList";
-import { SwipeableViews } from "../SwipeableViews";
+import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 
 interface SwipeableStopListProps {
   stopTab: string;
@@ -59,21 +61,33 @@ const SwipeableStopList = React.forwardRef<
     [availableTabs, stopMap]
   );
 
+  const [swiper, setSwiper] = useState<SwiperClass | null>(null);
+  useEffect(() => {
+    setTimeout(() => {
+      if (swiper) {
+        swiper.slideTo(getViewIdx());
+      }
+    }, 10);
+  }, [getViewIdx]);
+
   return (
-    <SwipeableViews
-      index={getViewIdx()}
-      onChangeIndex={(idx) => {
+    <Swiper
+      onSwiper={setSwiper}
+      onSlideChange={(swiper) => {
+        const idx = swiper.activeIndex;
         onChangeTab(availableTabs[idx]);
       }}
     >
       {tabStops.map((stops, idx) => (
-        <StopRouteList
-          key={`savedStops-${idx}`}
-          stops={stops}
-          isFocus={getViewIdx() === idx}
-        />
+        <SwiperSlide key={`savedStops-${idx}`}>
+          <StopRouteList
+            key={`savedStops-${idx}`}
+            stops={stops}
+            isFocus={getViewIdx() === idx}
+          />
+        </SwiperSlide>
       ))}
-    </SwipeableViews>
+    </Swiper>
   );
 });
 
