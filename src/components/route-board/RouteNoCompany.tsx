@@ -2,19 +2,21 @@ import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 import { Box, SxProps, Theme, Typography } from "@mui/material";
 import RouteNo from "./RouteNo";
+import { RouteListEntry } from "hk-bus-eta";
 
-const RouteNoCompany = ({ route }) => {
+const RouteNoCompany = ({ route }: { route: [string, RouteListEntry] }) => {
   const { t } = useTranslation();
-  const [routeNo, serviceType] = route[0].split("-").slice(0, 2);
+  const routeNo = route[1].route;
+  const serviceType = route[1].serviceType;
 
   return (
     <Box>
       <div>
         <RouteNo
           routeNo={i18n.language === "zh" ? t(routeNo) : routeNo}
-          fontSize={route[1].co[0] === "mtr" ? "1.2rem" : null}
+          // fontSize={route[1].co[0] === "mtr" ? "1.2rem" : null}
         />
-        {parseInt(serviceType, 10) >= 2 && (
+        {parseInt(serviceType, 10) >= 3 && (
           <Typography variant="caption" sx={specialTripSx}>
             {t("特別班")}
           </Typography>

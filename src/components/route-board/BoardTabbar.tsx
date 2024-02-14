@@ -42,9 +42,8 @@ export const isBoardTab = (
     (isRecentSearchShown && input === "recent") ||
     input === "all" ||
     input === "bus" ||
-    input === "minibus" ||
-    input === "lightRail" ||
-    input === "mtr"
+    input === "underground" ||
+    input === "train"
   );
 };
 

@@ -16,12 +16,11 @@ export const ETA_FORMAT_STR = {
 };
 
 export const TRANSPORT_SEARCH_OPTIONS: Record<BoardTabType, Company[]> = {
-  recent: ["kmb", "ctb", "lrtfeeder", "nlb", "gmb", "lightRail", "mtr"],
-  all: ["kmb", "ctb", "lrtfeeder", "nlb", "gmb", "lightRail", "mtr"],
-  bus: ["kmb", "ctb", "lrtfeeder", "nlb"],
-  minibus: ["gmb"],
-  lightRail: ["lightRail"],
-  mtr: ["mtr"],
+  recent: ["tfl-bus", "tfl-underground"],
+  all: ["tfl-bus", "tfl-underground"],
+  bus: ["tfl-bus"],
+  underground: ["tfl-underground"],
+  train: []
 };
 
 export const TRANSPORT_ORDER = {

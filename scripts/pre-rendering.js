@@ -186,7 +186,7 @@ async function runPuppeteer(baseUrl, routes, dir) {
   page.on("request", (request) => {
     // block map loading, google font, gov.hk and service-worker
     if (
-      request.url().includes(process.env.REACT_APP_OSM_PROVIDER_HOST) ||
+      request.url().includes(process.env.VITE_OSM_PROVIDER_HOST) ||
       request.url().includes("data.gov.hk") ||
       request.url().includes("gstatic") ||
       request.url().includes("service-worker")

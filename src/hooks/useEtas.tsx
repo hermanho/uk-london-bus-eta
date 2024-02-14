@@ -1,7 +1,8 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Eta, fetchEtas } from "hk-bus-eta";
+import { Eta } from "hk-bus-eta";
 import AppContext from "../AppContext";
+import { fetchEtas } from "../data-layer/tfl";
 
 export const useEtas = (routeId, disable = false) => {
   const {

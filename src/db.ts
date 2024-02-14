@@ -1,6 +1,7 @@
-import { fetchEtaDb, fetchEtaDbMd5 } from "hk-bus-eta";
+// import { fetchEtaDb, fetchEtaDbMd5 } from "hk-bus-eta";
 import type { EtaDb } from "hk-bus-eta";
 import { decompress as decompressJson } from "lzutf8-light";
+import { fetchEtaDb } from "./data-layer/tfl";
 
 const isEtaDb = (input: unknown): input is EtaDb => {
   return (
@@ -92,40 +93,44 @@ export const fetchDbFunc = async (
       }
     });
 
-  if (raw !== null && !forceRenew) {
-    let isOffline = !navigator.onLine;
-    let shouldAutoRenew =
-      autoRenew && Date.now() - lastUpdateTime > 7 * 24 * 3600 * 1000;
-    if (isOffline || !shouldAutoRenew) {
-      try {
-        const db = await storedDb(raw);
-        return db;
-      } catch {}
-    }
-  }
+  // if (raw !== null && !forceRenew) {
+  //   let isOffline = !navigator.onLine;
+  //   let shouldAutoRenew =
+  //     autoRenew && Date.now() - lastUpdateTime > 7 * 24 * 3600 * 1000;
+  //   if (isOffline || !shouldAutoRenew) {
+  //     try {
+  //       const db = await storedDb(raw);
+  //       return db;
+  //     } catch { }
+  //   }
+  // }
 
   try {
-    const [_schemaVersion, _md5] = await Promise.all([
-      fetch(process.env.PUBLIC_URL + "/schema-version.txt").then((res) =>
-        res.text()
-      ),
-      fetchEtaDbMd5(),
-    ]);
-    let needRenew = forceRenew;
-    if (schemaVersion !== _schemaVersion) {
-      needRenew = true;
-    }
-    if (versionMd5 !== _md5) {
-      needRenew = true;
-    }
-    try {
-      if (!needRenew) {
-        const db = await storedDb(raw);
-        if (isEtaDb(db)) {
-          return db;
-        }
-      }
-    } catch {}
+    // const [_schemaVersion, _md5] = await Promise.all([
+    //   fetch(import.meta.env.BASE_URL + "/schema-version.txt").then((res) =>
+    //     res.text()
+    //   ),
+    //   fetchEtaDbMd5(),
+    // ]);
+    // let needRenew = forceRenew;
+    // if (schemaVersion !== _schemaVersion) {
+    //   needRenew = true;
+    // }
+    // if (versionMd5 !== _md5) {
+    //   needRenew = true;
+    // }
+    // try {
+    //   if (!needRenew) {
+    //     const db = await storedDb(raw);
+    //     if (isEtaDb(db)) {
+    //       return db;
+    //     }
+    //   }
+    // } catch {}
+
+    let _schemaVersion = '';
+    let _md5 = '';
+
     const updateTime = Date.now() + "";
     localStorage.setItem("updateTime", updateTime);
     return new Promise((resolve_1) => {

@@ -100,7 +100,7 @@ registerRoute(
   })
 );
 
-const maphost = process.env.REACT_APP_OSM_PROVIDER_HOST || "";
+const maphost = import.meta.env.VITE_OSM_PROVIDER_HOST || "";
 const mapCacheStrategy = new CacheFirstCORS({
   cacheName: "map",
   plugins: [
@@ -143,7 +143,7 @@ self.addEventListener("message", (event) => {
         all.map((client) =>
           client.postMessage({
             type: "CURRENT_VERSION",
-            payload: `build ${process.env.REACT_APP_COMMIT_HASH}`,
+            payload: `build ${import.meta.env.VITE_COMMIT_HASH}`,
           })
         )
       );

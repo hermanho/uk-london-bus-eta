@@ -118,16 +118,16 @@ const Settings = () => {
             />
           </ListItemButton>
         )}
-        {(process.env.REACT_APP_COMMIT_HASH ||
-          process.env.REACT_APP_VERSION) && (
+        {(import.meta.env.VITE_COMMIT_HASH ||
+          import.meta.env.VITE_VERSION) && (
           <ListItemButton
             component="a"
             href={`${
-              process.env.REACT_APP_REPO_URL ||
+              import.meta.env.VITE_REPO_URL ||
               "https://github.com/hkbus/hk-independent-bus-eta"
             }${
-              process.env.REACT_APP_COMMIT_HASH
-                ? `/commit/${process.env.REACT_APP_COMMIT_HASH}`
+              import.meta.env.VITE_COMMIT_HASH
+                ? `/commit/${import.meta.env.VITE_COMMIT_HASH}`
                 : ""
             }`}
             target="_blank"
@@ -140,13 +140,13 @@ const Settings = () => {
             </ListItemAvatar>
             <ListItemText
               primary={`${t("版本")}: ${
-                process.env.REACT_APP_VERSION || "unknown"
+                import.meta.env.VITE_VERSION || "unknown"
               }${
-                process.env.REACT_APP_COMMIT_HASH
-                  ? ` - ${process.env.REACT_APP_COMMIT_HASH}`
+                import.meta.env.VITE_COMMIT_HASH
+                  ? ` - ${import.meta.env.VITE_COMMIT_HASH}`
                   : ""
               }`}
-              secondary={process.env.REACT_APP_COMMIT_MESSAGE || ""}
+              secondary={import.meta.env.VITE_COMMIT_MESSAGE || ""}
             />
           </ListItemButton>
         )}
@@ -401,7 +401,7 @@ const Settings = () => {
         <ListItemButton
           component={"a"}
           href={
-            process.env.REACT_APP_REPO_URL ||
+            import.meta.env.VITE_REPO_URL ||
             `https://github.com/hkbus/hk-independent-bus-eta`
           }
           target="_blank"

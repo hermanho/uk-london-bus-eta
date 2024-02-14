@@ -98,7 +98,7 @@ const SuccinctTimeReport = ({
     platformMode,
   } = useContext(AppContext);
   const [routeNo] = routeId.split("-");
-  const [routeKey, seq] = routeId.split("/");
+  const [routeKey, seq] = routeId.split("#####");
   const { co, stops, dest, fares, faresHoliday, route } =
     routeList[routeKey] || DEFAULT_ROUTE;
   const stopId = getStops(co, stops)[parseInt(seq, 10)];
@@ -136,12 +136,12 @@ const SuccinctTimeReport = ({
   }, [etas, platformMode]);
 
   let isEndOfTrainLine = false;
-  if (co[0] === "mtr") {
-    isEndOfTrainLine = stops["mtr"].indexOf(stopId) + 1 >= stops["mtr"].length;
-  } else if (co.includes("lightRail")) {
-    isEndOfTrainLine =
-      stops["lightRail"].indexOf(stopId) + 1 >= stops["lightRail"].length;
-  }
+  // if (co[0] === "mtr") {
+  //   isEndOfTrainLine = stops["mtr"].indexOf(stopId) + 1 >= stops["mtr"].length;
+  // } else if (co.includes("lightRail")) {
+  //   isEndOfTrainLine =
+  //     stops["lightRail"].indexOf(stopId) + 1 >= stops["lightRail"].length;
+  // }
 
   return (
     <>
@@ -161,7 +161,7 @@ const SuccinctTimeReport = ({
           primary={
             <RouteNo
               routeNo={language === "zh" ? t(routeNo) : routeNo}
-              fontSize={co[0] === "mtr" ? "1.1rem" : null}
+              // fontSize={co[0] === "mtr" ? "1.1rem" : null}
             />
           }
         />
@@ -223,7 +223,7 @@ const SuccinctTimeReport = ({
 };
 
 const DEFAULT_ROUTE = {
-  co: ["kmb"] as Company[],
+  co: ["tfl-bus"] as Company[],
   stops: { "": [""] },
   dest: { zh: "", en: "" },
   bound: "",

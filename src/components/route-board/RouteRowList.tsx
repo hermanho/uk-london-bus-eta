@@ -6,12 +6,13 @@ import { RouteListEntry } from "hk-bus-eta";
 import AppContext from "../../AppContext";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { BoardTabType } from "../../typing";
 
 interface RouteRowListProps {
   data: {
     routeList: [string, RouteListEntry][];
     vibrateDuration: number;
-    tab: "recent" | "all" | "bus" | "minibus" | "lightRail" | "mtr";
+    tab: BoardTabType;
   };
   index: number;
   style: React.CSSProperties;

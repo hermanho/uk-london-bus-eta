@@ -39,6 +39,7 @@
     "react-world-compass": "^1.1.1",
     "remark-gfm": "^3.0.1",
     "string-similarity": "^4.0.4",
+    "swiper": "^11.0.6",
     "udsv": "^0.5.3",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "6.6.0",

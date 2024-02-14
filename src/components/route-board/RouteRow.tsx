@@ -12,8 +12,15 @@ import RouteTerminus from "./RouteTerminus";
 import RouteNoCompany from "./RouteNoCompany";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
+import { RouteListEntry } from "hk-bus-eta";
+import { CSSProperties, MouseEventHandler } from "react";
 
-const RouteRow = ({ route, handleClick, style, onRemove }) => {
+const RouteRow = ({ route, handleClick, style, onRemove }: {
+  route: [string, RouteListEntry],
+  handleClick: MouseEventHandler<HTMLButtonElement>,
+  style?: CSSProperties,
+  onRemove?: MouseEventHandler<HTMLButtonElement>
+}) => {
   const { i18n } = useTranslation();
 
   return (
@@ -53,7 +60,7 @@ const rootSx: SxProps<Theme> = {
 
 const cardContentSx: SxProps<Theme> = {
   display: "grid",
-  gridTemplateColumns: "25% 65%",
+  gridTemplateColumns: "20% 75%",
   py: 0.5,
   px: 2,
   alignItems: "center",

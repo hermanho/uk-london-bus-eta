@@ -33,13 +33,17 @@ const StopDialog = ({ open, stops, onClose }: StopDialogProps) => {
   } = useContext(AppContext);
   const { i18n } = useTranslation();
 
-  const bookmarked = useMemo<boolean>(
-    () =>
-      stops.reduce(
-        (acc, cur) => acc || savedStops.includes(cur.join("|")),
-        false
-      ),
-    [stops, savedStops]
+  // const bookmarked = useMemo<boolean>(
+  //   () =>
+  //     stops.reduce(
+  //       (acc, cur) => acc || savedStops.includes(cur.join("|")),
+  //       false
+  //     ),
+  //   [stops, savedStops]
+  // );
+  const bookmarked = stops.reduce(
+    (acc, cur) => acc || savedStops.includes(cur.join("|")),
+    false
   );
 
   const handleClickDirection = useCallback(() => {

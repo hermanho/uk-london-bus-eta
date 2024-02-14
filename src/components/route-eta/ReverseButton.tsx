@@ -29,9 +29,9 @@ const ReverseButton = ({ routeId }: { routeId: string }) => {
           (acc, [key, _routeListEntry]) => {
             if (key === routeId) return acc;
             const { co: _co, route: _route, gtfsId: _gtfsId } = _routeListEntry;
-            if (co[0] === "gmb" && gtfsId && gtfsId !== _gtfsId) {
-              return acc;
-            }
+            // if (co[0] === "gmb" && gtfsId && gtfsId !== _gtfsId) {
+            //   return acc;
+            // }
             if (
               _route === route &&
               JSON.stringify(co) === JSON.stringify(_co)

@@ -59,7 +59,8 @@ const SuccinctEtas = ({
         </Box>
       );
 
-      const isTrain = eta.co === "mtr" || eta.co === "lightRail";
+      // const isTrain = eta.co === "mtr" || eta.co === "lightRail";
+      const isTrain = false;
       const waitTimeJsx = (
         <Box component="span">
           {etaFormat === "diff" && trains.length === 1 && <SingleTrainIcon />}

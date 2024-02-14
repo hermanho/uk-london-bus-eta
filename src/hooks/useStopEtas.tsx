@@ -7,9 +7,10 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Eta, fetchEtas } from "hk-bus-eta";
+import { Eta } from "hk-bus-eta";
 import AppContext from "../AppContext";
 import { isRouteAvaliable } from "../timetable";
+import { fetchEtas } from "../data-layer/tfl";
 
 interface useStopEtasProps {
   stopKeys: string[][];
@@ -87,21 +88,12 @@ export const useStopEtas = ({
         setStopEtas(
           _etas
             .map((e, idx) => [
-              routeKeys[idx].join("/"),
-              e.filter(({ co, dest }) => {
-                if (co !== "mtr") return true;
-                return dest.zh === routeList[routeKeys[idx][0]].dest.zh;
-              }),
+              routeKeys[idx].join("#####"),
+              e,
             ])
             .sort(([keyA, a], [keyB, b]) => {
               if (a.length === 0) return 1;
               if (b.length === 0) return -1;
-              if (isLightRail) {
-                if (a[0].remark.zh === b[0].remark.zh) {
-                  return a[0].eta < b[0].eta ? -1 : 1;
-                }
-                return a[0].remark.zh < b[0].remark.zh ? -1 : 1;
-              }
               if (a[0].eta === b[0].eta) {
                 return keyA < keyB ? -1 : 1;
               }

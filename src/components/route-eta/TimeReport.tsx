@@ -41,13 +41,13 @@ const TimeReport = ({
 
   const noScheduleRemark = useMemo(() => {
     let isEndOfTrainLine = false;
-    if (co[0] === "mtr") {
-      isEndOfTrainLine =
-        stops["mtr"].indexOf(stopId) + 1 >= stops["mtr"].length;
-    } else if (co.includes("lightRail")) {
-      isEndOfTrainLine =
-        stops["lightRail"].indexOf(stopId) + 1 >= stops["lightRail"].length;
-    }
+    // if (co[0] === "mtr") {
+    //   isEndOfTrainLine =
+    //     stops["mtr"].indexOf(stopId) + 1 >= stops["mtr"].length;
+    // } else if (co.includes("lightRail")) {
+    //   isEndOfTrainLine =
+    //     stops["lightRail"].indexOf(stopId) + 1 >= stops["lightRail"].length;
+    // }
 
     if (etas === null) {
       return null;
@@ -118,9 +118,9 @@ const EtaLine = ({
   const { etaFormat, platformMode } = useContext(AppContext);
 
   const branchRoute = useMemo(() => {
-    if (co === "mtr") {
-      return true;
-    }
+    // if (co === "mtr") {
+    //   return true;
+    // }
     for (const routeDest of routeDests) {
       if (routeDest.en.toLowerCase() === dest.en.toLowerCase()) {
         return false;
@@ -145,7 +145,8 @@ const EtaLine = ({
     </Box>
   );
 
-  const isTrain = co === "mtr" || co === "lightRail";
+  // const isTrain = co === "mtr" || co === "lightRail";
+  const isTrain = false;
 
   let waitTimeText;
   let trainTextUsed;

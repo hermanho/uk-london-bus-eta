@@ -19,49 +19,47 @@ const RouteOffiicalUrlBtn = ({ routeId }: RouteOffiicalUrlBtnProps) => {
     () =>
       co.map((c) => {
         switch (c) {
-          case "ctb":
+          // case "ctb":
+          //   return [
+          //     c,
+          //     `https://mobile.citybus.com.hk/nwp3/?f=1&ds=${route}&dsmode=1&l=${
+          //       i18n.language === "zh" ? 0 : 1
+          //     }`,
+          //   ];
+          // case "kmb":
+          //   return [
+          //     c,
+          //     `https://search.kmb.hk/KMBWebSite/?action=routesearch&route=${route}&lang=${
+          //       i18n.language === "zh" ? "zh-hk" : "en"
+          //     }`,
+          //   ];
+          // case "gmb":
+          //   return [
+          //     c,
+          //     `https://h2-app-rr.hkemobility.gov.hk/ris_page/get_gmb_detail.php?lang=${
+          //       i18n.language === "zh" ? "TC" : "EN"
+          //     }&route_id=${gtfsId}`,
+          //   ];
+          // case "nlb":
+          //   return [c, `https://www.nlb.com.hk/route?q=${route}`];
+          // case "lrtfeeder":
+          //   return [
+          //     c,
+          //     `https://www.mtr.com.hk/${
+          //       i18n.language === "zh" ? "ch" : "en"
+          //     }/customer/services/searchBusRouteDetails.php?routeID=${route}`,
+          //   ];
+          // case "lightRail":
+          //   return [
+          //     c,
+          //     `https://www.mtr.com.hk/${
+          //       i18n.language === "zh" ? "ch" : "en"
+          //     }/customer/services/schedule_index.html`,
+          //   ];
+          case "tfl-bus":
             return [
               c,
-              `https://mobile.citybus.com.hk/nwp3/?f=1&ds=${route}&dsmode=1&l=${
-                i18n.language === "zh" ? 0 : 1
-              }`,
-            ];
-          case "kmb":
-            return [
-              c,
-              `https://search.kmb.hk/KMBWebSite/?action=routesearch&route=${route}&lang=${
-                i18n.language === "zh" ? "zh-hk" : "en"
-              }`,
-            ];
-          case "gmb":
-            return [
-              c,
-              `https://h2-app-rr.hkemobility.gov.hk/ris_page/get_gmb_detail.php?lang=${
-                i18n.language === "zh" ? "TC" : "EN"
-              }&route_id=${gtfsId}`,
-            ];
-          case "nlb":
-            return [c, `https://www.nlb.com.hk/route?q=${route}`];
-          case "lrtfeeder":
-            return [
-              c,
-              `https://www.mtr.com.hk/${
-                i18n.language === "zh" ? "ch" : "en"
-              }/customer/services/searchBusRouteDetails.php?routeID=${route}`,
-            ];
-          case "lightRail":
-            return [
-              c,
-              `https://www.mtr.com.hk/${
-                i18n.language === "zh" ? "ch" : "en"
-              }/customer/services/schedule_index.html`,
-            ];
-          case "mtr":
-            return [
-              c,
-              `https://www.mtr.com.hk/${
-                i18n.language === "zh" ? "ch" : "en"
-              }/customer/services/train_service_index.html`,
+              `https://tfl.gov.uk/travel-information/stations-stops-and-piers/`,
             ];
           default:
             return [c, null];

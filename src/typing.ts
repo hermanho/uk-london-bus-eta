@@ -40,6 +40,9 @@ export const DEFAULT_ROUTE_COLLECTION: RouteCollection = {
     })),
 };
 
-export type TransportType = "bus" | "minibus" | "lightRail" | "mtr";
 
-export type BoardTabType = "recent" | "all" | TransportType;
+export const BOARD_TAB = ["recent", "all", "bus", "underground", "train"] as const;
+
+export type BoardTabType = typeof BOARD_TAB[number];
+
+export type TransportType = Exclude<BoardTabType, "recent" | "all">;

@@ -68,8 +68,8 @@ const RangeMap = React.forwardRef<Leaflet.Map, RangeMapProps>(
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url={
             colorMode === "light"
-              ? process.env.REACT_APP_OSM_PROVIDER_URL
-              : process.env.REACT_APP_OSM_PROVIDER_URL_DARK
+              ? import.meta.env.VITE_OSM_PROVIDER_URL
+              : import.meta.env.VITE_OSM_PROVIDER_URL_DARK
           }
         />
         <Marker position={position} ref={markerRef} />

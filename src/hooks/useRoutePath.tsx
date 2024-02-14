@@ -12,19 +12,19 @@ export const useRoutePath = (routeId: string, stops: StopListEntry[]) => {
 
   useEffect(() => {
     let waypointsFile = "";
-    if (gtfsId) {
-      waypointsFile = `${gtfsId}-${
-        bound[co[0]] === "I" ? "I" : "O" // handling for pseudo circular route
-      }.json`;
-    } else if (co.includes("mtr")) {
-      waypointsFile = `${routeId.split("-")[0].toLowerCase()}.json`;
-    }
-    fetch(`https://hkbus.github.io/route-waypoints/${waypointsFile}`)
-      .then((r) => r.json())
-      .then((json) => {
-        setGeoJson(json);
-      })
-      .catch(() => {
+    // if (gtfsId) {
+    //   waypointsFile = `${gtfsId}-${
+    //     bound[co[0]] === "I" ? "I" : "O" // handling for pseudo circular route
+    //   }.json`;
+    // } else if (co.includes("mtr")) {
+    //   waypointsFile = `${routeId.split("-")[0].toLowerCase()}.json`;
+    // }
+    // fetch(`https://hkbus.github.io/route-waypoints/${waypointsFile}`)
+    //   .then((r) => r.json())
+    //   .then((json) => {
+    //     setGeoJson(json);
+    //   })
+    //   .catch(() => {
         setGeoJson({
           features: [
             {
@@ -40,10 +40,10 @@ export const useRoutePath = (routeId: string, stops: StopListEntry[]) => {
           ],
           type: "FeatureCollection",
         });
-      });
-    return () => {
-      setGeoJson(null);
-    };
+    //   });
+    // return () => {
+    //   setGeoJson(null);
+    // };
   }, [routeId, gtfsId, bound, co, stops]);
 
   return geoJson;

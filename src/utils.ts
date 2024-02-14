@@ -195,9 +195,9 @@ export function lat2tile(lat: number, zoom: number) {
       Math.log(
         Math.tan((lat * Math.PI) / 180) + 1 / Math.cos((lat * Math.PI) / 180)
       ) /
-        Math.PI) /
+      Math.PI) /
       2) *
-      Math.pow(2, zoom)
+    Math.pow(2, zoom)
   );
 }
 
@@ -326,16 +326,8 @@ export const isStrings = (input: unknown[]): input is string[] => {
 };
 
 export const coToType: Record<Company, TransportType> = {
-  kmb: "bus",
-  nlb: "bus",
-  ctb: "bus",
-  lrtfeeder: "bus",
-  gmb: "minibus",
-  gmbHki: "minibus",
-  gmbKln: "minibus",
-  gmbNt: "minibus",
-  lightRail: "lightRail",
-  mtr: "mtr",
+  "tfl-bus": "bus",
+  "tfl-underground": "underground",
 };
 
 const PLATFORM = ["", "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"] as const;
@@ -407,89 +399,11 @@ export const getLineColor = (
   forPlatform: boolean = false
 ) => {
   let color = "#FF4747";
-  if (companies[0] === "mtr") {
-    switch (route) {
-      case "AEL":
-        color = "#00888E";
-        break;
-      case "TCL":
-        color = "#F3982D";
-        break;
-      case "TML":
-        color = "#9C2E00";
-        break;
-      case "TKL":
-        color = "#7E3C93";
-        break;
-      case "EAL":
-        color = "#5EB7E8";
-        break;
-      case "SIL":
-        color = "#CBD300";
-        break;
-      case "TWL":
-        color = "#E60012";
-        break;
-      case "ISL":
-        color = "#0075C2";
-        break;
-      case "KTL":
-        color = "#00A040";
-        break;
-      case "DRL":
-        color = "#EB6EA5";
-        break;
-    }
-  } else if (companies.includes("lightRail")) {
-    if (forPlatform) {
-      color = "#D3A809";
-    } else {
-      switch (route) {
-        case "505":
-          color = "#DA2127";
-          break;
-        case "507":
-          color = "#00A652";
-          break;
-        case "610":
-          color = "#551C15";
-          break;
-        case "614":
-          color = "#00BFF3";
-          break;
-        case "614P":
-          color = "#F4858E";
-          break;
-        case "615":
-          color = "#FFDD00";
-          break;
-        case "615P":
-          color = "#016682";
-          break;
-        case "705":
-          color = "#73BF43";
-          break;
-        case "706":
-          color = "#B47AB5";
-          break;
-        case "751":
-          color = "#F48221";
-          break;
-        case "761P":
-          color = "#6F2D91";
-          break;
-      }
-    }
-  } else if (companies[0].startsWith("gmb")) {
-    color = "#36FF42";
-  } else if (companies.includes("lrtfeeder")) {
-    color = "#8AC4FF";
-  } else if (companies.includes("nlb")) {
-    color = "#26A69A";
-  } else if (companies.includes("kmb")) {
-    color = "#FF4747";
-  } else if (companies.includes("ctb")) {
-    color = "#FFE15E";
+  if (companies.includes("tfl-bus")) {
+    color = "#e1251b";
+  }
+  else if (companies.includes("tfl-bus")) {
+    color = "blue";
   }
   return color;
 };

@@ -193,8 +193,8 @@ const RouteMap = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url={
             colorMode === "light"
-              ? process.env.REACT_APP_OSM_PROVIDER_URL
-              : process.env.REACT_APP_OSM_PROVIDER_URL_DARK
+              ? import.meta.env.VITE_OSM_PROVIDER_URL
+              : import.meta.env.VITE_OSM_PROVIDER_URL_DARK
           }
         />
         {stops.map((stop, idx) => (
@@ -251,73 +251,20 @@ interface StopMarkerProps {
   active: boolean;
   passed: boolean;
   companies: Company[];
+  virtualWaypoint?: boolean;
 }
 
-const StopMarker = ({ active, passed, companies }: StopMarkerProps) => {
-  if (companies[0] === "mtr") {
+const StopMarker = ({ active, passed, companies, virtualWaypoint }: StopMarkerProps) => {
+  if (companies.includes("tfl-bus")) {
     return Leaflet.divIcon({
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-      className: `${classes.mtrMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
-    });
-  } else if (companies.includes("lightRail")) {
-    return Leaflet.divIcon({
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-      className: `${classes.mtrMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
-    });
-  } else if (companies[0].startsWith("gmb")) {
-    return Leaflet.divIcon({
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      className: `${classes.gmbMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
-    });
-  } else if (companies.includes("lrtfeeder")) {
-    return Leaflet.divIcon({
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      className: `${classes.lrtfeederMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
-    });
-  } else if (companies.includes("nlb")) {
-    return Leaflet.divIcon({
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      className: `${classes.nlbMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
-    });
-  } else if (companies.includes("ctb") && companies.includes("kmb")) {
-    return Leaflet.divIcon({
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      className: `${classes.jointlyMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
-    });
-  } else if (companies.includes("ctb")) {
-    return Leaflet.divIcon({
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      className: `${classes.ctbMarker} ${classes.marker} ${
-        active ? classes.active : ""
-      } ${passed ? classes.passed : ""}`,
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+      className: `${classes.busStopMarker} ${classes.marker} ${active ? classes.active : ""
+        } ${passed ? classes.passed : ""}`,
     });
   }
-  return Leaflet.divIcon({
-    iconSize: [30, 30],
-    iconAnchor: [15, 30],
-    className: `${classes.kmbMarker} ${classes.marker} ${
-      active ? classes.active : ""
-    } ${passed ? classes.passed : ""}`,
-  });
+
+  return <></>;
 };
 
 const PREFIX = "routeMap";
@@ -327,17 +274,17 @@ const classes = {
   mapContainer: `${PREFIX}-mapContainer`,
   centerControl: `${PREFIX}-centerControl`,
   marker: `${PREFIX}-marker`,
-  mtrMarker: `${PREFIX}-mtrMarker`,
-  gmbMarker: `${PREFIX}-gmbMarker`,
-  ctbMarker: `${PREFIX}-ctbMarker`,
-  jointlyMarker: `${PREFIX}-jointlyMarker`,
-  lrtfeederMarker: `${PREFIX}-lrtfeederMarker`,
-  nlbMarker: `${PREFIX}-nlbMarker`,
-  kmbMarker: `${PREFIX}-kmbMarker`,
+  busStopMarker: `${PREFIX}-busStopMarker`,
   jointlyLine: `${PREFIX}-jointlyLine`,
   active: `${PREFIX}-active`,
   passed: `${PREFIX}-passed`,
 };
+
+const basePin = {
+  fontFamily: 'Segoe UI Emoji,NotoColorEmoji',
+  fontSize: '3em',
+  position: 'absolute',
+}
 
 const rootSx: SxProps<Theme> = {
   height: "35vh",
@@ -346,37 +293,19 @@ const rootSx: SxProps<Theme> = {
   [`& .${classes.mapContainer}`]: {
     height: "35vh",
   },
-  [`& .${classes.mtrMarker}`]: {
-    backgroundImage: `url(/img/mtr.svg)`,
-  },
-  [`& .${classes.gmbMarker}`]: {
-    backgroundImage: `url(/img/minibus.svg)`,
-  },
-  [`& .${classes.ctbMarker}`]: {
-    backgroundImage: `url(/img/bus_ctb.svg)`,
-  },
-  [`& .${classes.jointlyMarker}`]: {
-    backgroundImage: `url(/img/bus_jointly.svg)`,
-  },
-  [`& .${classes.lrtfeederMarker}`]: {
-    backgroundImage: `url(/img/bus_lrtfeeder.svg)`,
-  },
-  [`& .${classes.nlbMarker}`]: {
-    backgroundImage: `url(/img/bus_nlb.svg)`,
-  },
-  [`& .${classes.kmbMarker}`]: {
-    backgroundImage: `url(/img/bus_kmb.svg)`,
+  [`& .${classes.busStopMarker}`]: {
+    backgroundImage: `url(/img/bus-stop-pointer.svg)`,
   },
   [`& .${classes.jointlyLine}`]: {
-    stroke: getLineColor(["kmb"], ""),
+    // stroke: getLineColor(["kmb"], ""),
     animation: `${classes.jointlyLine}-color 10s infinite linear 1.5s`,
   },
   [`@keyframes ${classes.jointlyLine}-color`]: {
     "50%": {
-      stroke: getLineColor(["ctb"], ""),
+      // stroke: getLineColor(["ctb"], ""),
     },
     "100%": {
-      stroke: getLineColor(["kmb"], ""),
+      // stroke: getLineColor(["kmb"], ""),
     },
   },
   [`& .${classes.active}`]: {
